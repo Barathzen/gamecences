@@ -1,0 +1,6 @@
+{
+  "name": "gamecences",
+  "description": "A dynamic, text-based adventure powered by Google's Gemini API. Your choices will determine your fate.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}
