@@ -61,18 +61,28 @@ const handler: Handler = async (event: HandlerEvent) => {
       
       case 'generateAdventureImage': {
         const { prompt } = payload;
-        const response = await ai.models.generateImages({
-            model: IMAGEN_MODEL,
-            prompt: prompt,
-            config: { numberOfImages: 1, outputMimeType: "image/jpeg" },
+        const HF_API_URL = "https://router.huggingface.co/hyperbolic/v1/images/generations";
+        const HF_API_KEY = process.env.HF_API_KEY || process.env.HF_TOKEN; // Use either env var
+
+        const hfResponse = await fetch(HF_API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${HF_API_KEY}`,
+          },
+          body: JSON.stringify({
+            prompt,
+            model_name: "SD2"
+          }),
         });
 
-        if (response.generatedImages?.[0]?.image?.imageBytes) {
-            const base64ImageBytes = response.generatedImages[0].image.imageBytes;
-            data = { imageUrl: `data:image/jpeg;base64,${base64ImageBytes}` };
-        } else {
-            throw new Error("No image generated or image data missing.");
+        if (!hfResponse.ok) {
+          throw new Error(`Hugging Face Hyperbolic API error: ${hfResponse.statusText}`);
         }
+
+        const arrayBuffer = await hfResponse.arrayBuffer();
+        const base64Image = Buffer.from(arrayBuffer).toString('base64');
+        data = { imageUrl: `data:image/png;base64,${base64Image}` };
         break;
       }
 
