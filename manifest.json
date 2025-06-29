@@ -1,0 +1,24 @@
+{
+  "short_name": "gamecences",
+  "name": "gamecences",
+  "description": "A dynamic, text-based adventure powered by Google's Gemini API. Your choices will determine your fate.",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#030712",
+  "theme_color": "#0ea5e9"
+}

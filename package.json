@@ -1,0 +1,13 @@
+{
+  "name": "gamecences",
+  "version": "1.0.0",
+  "description": "A dynamic, text-based adventure game.",
+  "private": true,
+  "scripts": {
+    "build": "echo \"No build step required for this static site.\""
+  },
+  "dependencies": {
+    "@google/genai": "^1.7.0",
+    "@netlify/functions": "^2.6.0"
+  }
+}
