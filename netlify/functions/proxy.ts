@@ -6,7 +6,7 @@ const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 // Constants from the original project
 const GEMINI_TEXT_MODEL = "gemini-2.5-flash-preview-04-17";
-const IMAGEN_MODEL = "imagen-3.0-generate-001";
+
 
 function parseJsonFromResponse(response: GenerateContentResponse): any {
   let jsonStr = response.text?.trim() || '';
@@ -62,7 +62,7 @@ const handler: Handler = async (event: HandlerEvent) => {
       case 'generateAdventureImage': {
         const { prompt } = payload;
         const HF_API_URL = "https://router.huggingface.co/hyperbolic/v1/images/generations";
-        const HF_API_KEY = process.env.HF_API_KEY || process.env.HF_TOKEN; // Use either env var
+        const HF_API_KEY = process.env.HF_API_KEY;// Use either env var
 
         const hfResponse = await fetch(HF_API_URL, {
           method: "POST",
