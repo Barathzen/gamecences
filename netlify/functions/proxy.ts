@@ -64,22 +64,26 @@ const handler: Handler = async (event: HandlerEvent) => {
         const HF_API_URL = "https://router.huggingface.co/hyperbolic/v1/images/generations";
         const HF_API_KEY = process.env.HF_API_KEY || process.env.HF_TOKEN; // Use either env var
 
+        const requestBody = {
+          prompt,
+          model_name: "SD2",
+          height: 1024,
+          width: 1024
+        };
+
         const hfResponse = await fetch(HF_API_URL, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${HF_API_KEY}`,
           },
-          body: JSON.stringify({
-            prompt,
-            model_name: "SD2",
-            height: 1024,
-            width: 1024
-          }),
+          body: JSON.stringify(requestBody),
         });
 
         if (!hfResponse.ok) {
-          throw new Error(`Hugging Face Hyperbolic API error: ${hfResponse.statusText}`);
+          const errorText = await hfResponse.text();
+          console.error("Hugging Face API error:", errorText);
+          throw new Error(`Hugging Face Hyperbolic API error: ${errorText}`);
         }
 
         const arrayBuffer = await hfResponse.arrayBuffer();
