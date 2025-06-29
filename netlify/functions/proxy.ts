@@ -72,7 +72,9 @@ const handler: Handler = async (event: HandlerEvent) => {
           },
           body: JSON.stringify({
             prompt,
-            model_name: "SD2"
+            model_name: "SD2",
+            height: 1024,
+            width: 1024
           }),
         });
 
