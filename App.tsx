@@ -183,6 +183,7 @@ Based on my choice, generate the next part of the story.`;
 
       generateAdventureImage(`high fantasy art, ${adventureData.imagePrompt}`)
         .then(imageUrl => {
+            console.log("Received imageUrl:", imageUrl);
             setActiveAdventure(adv => adv ? {...adv, currentImageUrl: imageUrl} : null);
         })
         .catch(imgError => {
