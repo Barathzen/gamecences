@@ -6,14 +6,14 @@ const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 // Constants from the original project
 const GEMINI_TEXT_MODEL = "gemini-2.5-flash-preview-04-17";
-const IMAGEN_MODEL = "imagen-3.0-generate-002";
+const IMAGEN_MODEL = "imagen-3.0-generate-001";
 
 function parseJsonFromResponse(response: GenerateContentResponse): any {
-  let jsonStr = response.text.trim();
+  let jsonStr = response.text?.trim() || '';
   const fenceRegex = /^```(?:json)?\s*\n?(.*?)\n?\s*```$/s;
   const match = jsonStr.match(fenceRegex);
-  if (match && match[2]) {
-    jsonStr = match[2].trim();
+  if (match && match[1]) {
+    jsonStr = match[1].trim();
   }
   return JSON.parse(jsonStr);
 }
