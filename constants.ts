@@ -5,7 +5,7 @@ export const PLACEHOLDER_IMAGE_URL = "https://picsum.photos/seed/cyberpunk/1024/
 export const LOADING_IMAGE_URL = "https://picsum.photos/seed/loading/1024/768?grayscale&blur=2";
 
 export const GEMINI_TEXT_MODEL = "gemini-2.5-flash-preview-04-17";
-export const IMAGEN_MODEL = "imagen-3.0-generate-002";
+export const IMAGEN_MODEL = "imagen-3.0-generate-001";
 
 export const ADVENTURE_LEVEL_GOAL = 50;
 export const ADVENTURE_COMPLETION_REWARD = 1000;
