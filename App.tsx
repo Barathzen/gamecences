@@ -9,8 +9,6 @@ import ErrorMessage from './components/ErrorMessage';
 import Hud from './components/Hud';
 import Auth from './components/Auth';
 import Dashboard from './components/Dashboard';
-import ImageSettings, { ImageGenerationSettings } from './components/ImageSettings';
-import { generateImageWithFallback } from './services/imageService';
 import {
   APP_TITLE,
   PLACEHOLDER_IMAGE_URL,
@@ -34,15 +32,6 @@ const App: React.FC = () => {
   const [isLoadingImage, setIsLoadingImage] = useState<boolean>(false);
   const [isGeneratingContract, setIsGeneratingContract] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  
-  // Image Settings State
-  const [imageSettings, setImageSettings] = useState<ImageGenerationSettings>({
-    modelKey: 'FLUX_SCHNELL',
-    priority: 'balanced',
-    enhancementLevel: 'enhanced',
-    autoSelect: true
-  });
-  const [showImageSettings, setShowImageSettings] = useState<boolean>(false);
 
   useEffect(() => {
     storage.seedInitialUsers();
@@ -192,14 +181,7 @@ Based on my choice, generate the next part of the story.`;
       setActiveAdventure(updatedAdventure);
       setIsLoading(false); // Text is loaded, UI can update
 
-      generateImageWithFallback(
-        adventureData.imagePrompt,
-        category.id,
-        {
-          priority: imageSettings.priority,
-          enhancementLevel: imageSettings.enhancementLevel
-        }
-      )
+      generateAdventureImage(`high fantasy art, ${adventureData.imagePrompt}`)
         .then(imageUrl => {
             console.log("Received imageUrl:", imageUrl);
             setActiveAdventure(adv => adv ? {...adv, currentImageUrl: imageUrl} : null);
@@ -354,16 +336,6 @@ Based on my choice, generate the next part of the story.`;
           SYSTEM ONLINE // V1.0.0
         </p>
       </footer>
-      
-      {/* Image Settings Panel - only show during gameplay */}
-      {view === 'game' && activeAdventure && (
-        <ImageSettings
-          storyCategory={activeAdventure.storyId}
-          onSettingsChange={setImageSettings}
-          isOpen={showImageSettings}
-          onToggle={() => setShowImageSettings(!showImageSettings)}
-        />
-      )}
     </div>
   );
 };
