@@ -50,11 +50,8 @@ export async function generateAdventureStep(
 /**
  * Generates an image by calling the proxy.
  */
-export async function generateAdventureImage(
-  prompt: string, 
-  storyCategory: string = 'default'
-): Promise<string> {
-  const { imageUrl } = await callProxy('generateAdventureImage', { prompt, storyCategory });
+export async function generateAdventureImage(prompt: string): Promise<string> {
+  const { imageUrl } = await callProxy('generateAdventureImage', { prompt });
   if (typeof imageUrl !== 'string') {
     throw new Error("Received invalid data structure for image URL.");
   }
