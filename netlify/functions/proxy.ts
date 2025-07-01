@@ -1,5 +1,6 @@
 import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
 import type { Handler, HandlerEvent } from "@netlify/functions";
+import { generateImageWithFallback } from "../../services/imageService";
 
 // The API key is securely accessed from Netlify's environment variables
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
@@ -60,35 +61,9 @@ const handler: Handler = async (event: HandlerEvent) => {
       }
       
       case 'generateAdventureImage': {
-        const { prompt } = payload;
-        const HF_API_URL = "https://router.huggingface.co/hyperbolic/v1/images/generations";
-        const HF_API_KEY = process.env.HF_API_KEY || process.env.HF_TOKEN; // Use either env var
-
-        const requestBody = {
-          prompt,
-          model_name: "SD2",
-          height: 1024,
-          width: 1024
-        };
-
-        const hfResponse = await fetch(HF_API_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${HF_API_KEY}`,
-          },
-          body: JSON.stringify(requestBody),
-        });
-
-        if (!hfResponse.ok) {
-          const errorText = await hfResponse.text();
-          console.error("Hugging Face API error:", errorText);
-          throw new Error(`Hugging Face Hyperbolic API error: ${errorText}`);
-        }
-
-        const arrayBuffer = await hfResponse.arrayBuffer();
-        const base64Image = Buffer.from(arrayBuffer).toString('base64');
-        data = { imageUrl: `data:image/png;base64,${base64Image}` };
+        const { prompt, storyCategory } = payload;
+        const imageUrl = await generateImageWithFallback(prompt, storyCategory);
+        data = { imageUrl };
         break;
       }
 
